@@ -1,0 +1,19 @@
+set -x KVSTORE_PORT 3001;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3001";set -x KVSTORE_PEERS "2@http://localhost:3002;3@http://localhost:3003";set -x KVSTORE_ID 1;lein run -m kvstore.server resources/config.edn
+
+set -x KVSTORE_PORT 3002;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3002";set -x KVSTORE_PEERS "1@http://localhost:3001;3@http://localhost:3003";set -x KVSTORE_ID 2;lein run -m kvstore.server resources/config.edn
+
+set -x KVSTORE_PORT 3003;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3003";set -x KVSTORE_PEERS "1@http://localhost:3001;2@http://localhost:3002";set -x KVSTORE_ID 3;lein run -m kvstore.server resources/config.edn
+
+
+set -x KVSTORE_PORT 3001;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3001";set -x KVSTORE_PEERS "2@http://localhost:3002;3@http://localhost:3003";set -x KVSTORE_ID 1;java -cp target/kvstore.jar clojure.main -m kvstore.server "resources/config.edn"
+
+set -x KVSTORE_PORT 3002;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3002";set -x KVSTORE_PEERS "1@http://localhost:3001;3@http://localhost:3003";set -x KVSTORE_ID 2;java -cp target/kvstore.jar clojure.main -m kvstore.server "resources/config.edn"
+
+set -x KVSTORE_PORT 3003;set -x KVSTORE_STORAGE_DIR "/tmp/rocksdb3003";set -x KVSTORE_PEERS "1@http://localhost:3001;2@http://localhost:3002";set -x KVSTORE_ID 3;java -cp target/kvstore.jar clojure.main -m kvstore.server "resources/config.edn"
+
+curl -s 'http://localhost:3003/v1/store' -H 'Content-Type: application/json' --data-raw $'{\n  "store/key": "hey",\n  "store/value": "hey"\n}' | json_pp
+
+curl -s 'http://localhost:3003/v1/store/hey' | json_pp
+curl -s 'http://localhost:3003/v1/store/hey' -X DELETE | json_pp
+
+curl -s 'http://localhost:3001/v1/rpc/system-info' | json_pp
