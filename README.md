@@ -1,8 +1,8 @@
 # Rafty
 
-A toy distributed key-value store based on the [Raft Consensus Algorithm](https://raft.github.io) and [RocksDB](http://rocksdb.org) for storage.
+A distributed key-value store based on the [Raft Consensus Algorithm](https://raft.github.io) and [RocksDB](http://rocksdb.org) for storage.
 
-Written in Clojure for learning purposes.
+:rotating_light: This is being done for demonstration/learning purposes, use at your own risk :rotating_light:
 
 ## Overview
 The project makes use of the following tools:
